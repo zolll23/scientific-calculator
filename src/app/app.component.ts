@@ -54,7 +54,7 @@ export class AppComponent {
 	}
 
 	calculate():string {
-		let value=toString(this.formula.calculate());
+		let value=this.formula.calculate().toString();
 		this.resetOperand();
 		return value;
 	}

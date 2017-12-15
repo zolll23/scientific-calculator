@@ -71,10 +71,13 @@ export class Formula {
     }
 
     singleton(operand:string,data:any):number {
-        let result:number;
+        let result:number=0;
+        let rad:number=0;
+        let grad=180/Math.PI;
         this.current_number=parseFloat(this.formula);
         console.log(operand);
         console.log(this.current_number);
+        
         switch (operand) {
             case 'invert':
                 result=this.current_number*data;
@@ -103,40 +106,34 @@ export class Formula {
                 result=1/this.current_number;
             break;
             case 'sin':
-                let grad=180/Math.PI;
-                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                rad=(this.radians) ? this.current_number : this.current_number/grad;
                 result=Math.sin(rad);
             break;
             case 'cos':
-                let grad=180/Math.PI;
-                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                rad=(this.radians) ? this.current_number : this.current_number/grad;
                 result=Math.cos(rad);
             break;
             case 'tan':
-                let grad=180/Math.PI;
-                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                rad=(this.radians) ? this.current_number : this.current_number/grad;
                 result=Math.tan(rad);
             break;
             case 'sinh':
-                let grad=180/Math.PI;
-                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                rad=(this.radians) ? this.current_number : this.current_number/grad;
                 result=(Math.exp(rad)-Math.exp(-rad))/2;
             break;
             case 'cosh':
-                let grad=180/Math.PI;
-                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                rad=(this.radians) ? this.current_number : this.current_number/grad;
                 result=(Math.exp(rad)+Math.exp(-rad))/2;
             break;
             case 'tanh':
-                let grad=180/Math.PI;
-                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                rad=(this.radians) ? this.current_number : this.current_number/grad;
                 result=(Math.exp(rad)-Math.exp(-rad))/(Math.exp(rad)+Math.exp(-rad));
             break;
             case 'rand':
                 result=Math.random();
             break;
             case 'factorial':
-                let n=parseInt(this.current_number);
+                let n=Math.ceil(this.current_number);
                 result=1;
                 for (let i=1;i<=n;i++) {
                     result*=i;
