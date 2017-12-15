@@ -5,7 +5,7 @@ export class Formula {
     start:boolean = false; 
     dotted:boolean = false; // input number having dot
     is_operand:boolean = false;
-    radians:boolean = false;
+    radians:boolean = true;
     operation:string = '';
     prev_formula:string = '';
 
@@ -16,6 +16,20 @@ export class Formula {
     get() {
         return this.formula;
     }
+
+    getCurrentNumber() {
+        return parseFloat(this.formula);
+    }
+
+    getPrevNumber() {
+        return parseFloat(this.prev_formula);
+    }
+
+    setRadians(switcher:boolean):boolean {
+        this.radians=switcher;
+        return this.radians;
+    }
+
 
     clear():string {
         this.formula = '0';
@@ -102,6 +116,21 @@ export class Formula {
                 let grad=180/Math.PI;
                 let rad=(this.radians) ? this.current_number : this.current_number/grad;
                 result=Math.tan(rad);
+            break;
+            case 'sinh':
+                let grad=180/Math.PI;
+                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                result=(Math.exp(rad)-Math.exp(-rad))/2;
+            break;
+            case 'cosh':
+                let grad=180/Math.PI;
+                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                result=(Math.exp(rad)+Math.exp(-rad))/2;
+            break;
+            case 'tanh':
+                let grad=180/Math.PI;
+                let rad=(this.radians) ? this.current_number : this.current_number/grad;
+                result=(Math.exp(rad)-Math.exp(-rad))/(Math.exp(rad)+Math.exp(-rad));
             break;
             case 'rand':
                 result=Math.random();

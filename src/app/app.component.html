@@ -1,6 +1,15 @@
 <div class="p-3 form-group">
   <form method="POST" class="alert alert-secondary">
     <div class="container">
+      <div class="row pb-1">
+        <div class="col text-right">
+            <span class="badge badge-success" *ngIf="getOperand()!='';">{{getOperand()}}</span>
+            
+            <span class="badge badge-warning" *ngIf="getRadians(); else badgeGrads">Rad</span>
+            <ng-template #badgeGrads><span class="badge badge-info">Grad</span></ng-template>
+
+        </div>
+      </div>
       <div class="row">
         <div class="col"><input type="text" placeholder="0" #inputField value="{{getFormula()}}" class="form-control text-right"></div>
       </div>
@@ -53,7 +62,8 @@
         <div class="col"><button class="form-control btn btn-info" (click)="setOperation('+');">+</button></div>
       </div>
       <div class="row pt-3">
-        <div class="col"><button class="form-control btn btn-secondary">Rad</button></div>
+        <div class="col" *ngIf="getRadians(); else Grads"><button class="form-control btn btn-warning" (click)="setRadians();">Rad</button></div>
+        <ng-template #Grads><div class="col"><button class="form-control btn btn-info" (click)="setRadians();">Grad</button></div></ng-template>
         <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('sinh',1);">sinh</button></div>
         <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('cosh',1);">cosh</button></div>
         <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('tanh',1);">tanh</button></div>

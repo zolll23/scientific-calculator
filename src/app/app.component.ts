@@ -8,6 +8,7 @@ import { Formula } from "./model";
 })
 
 export class AppComponent {
+
 	formula = new Formula('0');
 
 	title = 'Scientific Calculator';
@@ -18,6 +19,25 @@ export class AppComponent {
 
 	clear():any {
 		return this.formula.clear();
+	}
+
+	setRadians():boolean {
+		let switcher=!this.getRadians();
+		console.log('setRadians:'+switcher);
+		return this.formula.setRadians(switcher);
+	}
+
+	getRadians():boolean {
+		return this.formula.radians;
+	}
+
+	getOperand():string {
+		return this.formula.operation;
+	}
+
+	resetOperand() {
+		this.formula.operation='';
+		console.log('resetOperand');
 	}
 
 	singleton(operand:string,data:any):number {
@@ -34,6 +54,8 @@ export class AppComponent {
 	}
 
 	calculate():string {
-		return toString(this.formula.calculate());
+		let value=toString(this.formula.calculate());
+		this.resetOperand();
+		return value;
 	}
 }
