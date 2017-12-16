@@ -8,6 +8,8 @@ export class Formula {
     radians:boolean = true;
     operation:string = '';
     prev_formula:string = '';
+    memory:number = 0;
+    in_memory:boolean = false;
 
     constructor(formula:string='') {
         this.formula=formula;
@@ -17,12 +19,16 @@ export class Formula {
         return this.formula;
     }
 
+    parse(value:string):number {
+        return parseFloat(value);
+    }
+
     getCurrentNumber() {
-        return parseFloat(this.formula);
+        return this.parse(this.formula);
     }
 
     getPrevNumber() {
-        return parseFloat(this.prev_formula);
+        return this.parse(this.prev_formula);
     }
 
     setRadians(switcher:boolean):boolean {
@@ -41,7 +47,30 @@ export class Formula {
         return this.formula;
     }
 
+    clearMemory() {
+        this.memory = 0;
+        this.in_memory = false;
+    }
 
+    sumToMemory() {
+        let value=this.getCurrentNumber();
+        this.memory += value;
+        this.in_memory = true;
+        console.log(this.memory);
+    }
+
+    deductToMemory() {
+        let value=this.getCurrentNumber();
+        this.memory -= value;
+        this.in_memory = true;
+        console.log(this.memory);
+    }
+
+    readMemory():string {
+        this.prev_formula=this.formula;
+        this.formula=this.memory.toString();
+        return this.formula;
+    }
 
     setOperation(operand:string):string {
         if (this.is_operand) return this.operation;
@@ -138,6 +167,9 @@ export class Formula {
                 for (let i=1;i<=n;i++) {
                     result*=i;
                 }
+            break;
+            case 'percent':
+                result=this.current_number/100;
             break;
         }
         this.start=true;

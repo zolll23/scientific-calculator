@@ -1,4 +1,55 @@
 .mycol-2 {
-	flex:0 0 20%;
-	max-width: 20%;
+	flex:0 0 50%;
+	max-width: 50%;
+}
+
+.col,.col-2 {
+	padding-left:5px;
+	padding-right:5px;
+}
+
+.btn-xl {
+    font-size: 1.5rem;
+    line-height: 0.9;
+}
+
+.btn-sm {
+	border-radius: 0;
+}
+
+@media (min-width: 420px) {
+	.d-lt-none {
+		display: none !important;
+	}
+	.d-lt-inline {
+		display: inline !important;
+	}
+	.d-lt-inline-block {
+		display: inline-block !important;
+	}
+	.d-lt-block {
+		display: block !important;
+	}
+	.d-lt-table {
+		display: table !important;
+	}
+	.d-lt-table-row {
+		display: table-row !important;
+	}
+	.d-lt-table-cell {
+		display: table-cell !important;
+	}
+	.d-lt-flex {
+		display: -ms-flexbox !important;
+		display: flex !important;
+	}
+	.d-lt-inline-flex {
+		display: -ms-inline-flexbox !important;
+		display: inline-flex !important;
+	}
+
+	.mycol-2 {
+		flex:0 0 20%;
+		max-width: 20%;
+	}
 }

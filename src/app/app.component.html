@@ -1,9 +1,11 @@
-<div class="p-3 form-group">
+<div class="p-1 form-group">
   <form method="POST" class="alert alert-secondary">
-    <div class="container">
+    <div class="w-100">
       <div class="row pb-1">
         <div class="col text-right">
-            <span class="badge badge-success" *ngIf="getOperand()!='';">{{getOperand()}}</span>
+            <span class="badge badge-info" *ngIf="statusMemory()">Mem: {{valueMemory()}}</span>
+
+            <span class="badge badge-success" *ngIf="getOperand()!='';" [innerHTML]="getOperand()"></span>
             
             <span class="badge badge-warning" *ngIf="getRadians(); else badgeGrads">Rad</span>
             <ng-template #badgeGrads><span class="badge badge-info">Grad</span></ng-template>
@@ -13,65 +15,65 @@
       <div class="row">
         <div class="col"><input type="text" placeholder="0" #inputField value="{{getFormula()}}" class="form-control text-right"></div>
       </div>
-      <div class="row pt-3">
-        <div class="col"><button class="form-control btn btn-secondary">(</button></div>
-        <div class="col"><button class="form-control btn btn-secondary">)</button></div>
-        <div class="col"><button class="form-control btn btn-secondary">mc</button></div>
-        <div class="col"><button class="form-control btn btn-secondary">m+</button></div>
-        <div class="col"><button class="form-control btn btn-secondary">m-</button></div>
-        <div class="col"><button class="form-control btn btn-secondary">mr</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="clear();">AC</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('invert',-1);">+/-</button></div>
-        <div class="col"><button class="form-control btn btn-secondary">%</button></div>
-        <div class="col"><button class="form-control btn btn-info" (click)="setOperation('/');">/</button></div>
+      <div class="row pt-2">
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary">(</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary">)</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="clearMemory();">mc</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="sumToMemory();">m+</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="deductToMemory();">m-</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="readMemory();">mr</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-danger" (click)="clear();">C</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('invert',-1);">&#177;</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('percent',-1);">%</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-xl btn-info" (click)="setOperation('/');">&divide;</button></div>
       </div>
-      <div class="row pt-3">
-        <div class="col"><button class="form-control btn btn-secondary">2<sup>nd</sup></button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('pow',2);">X<sup>2</sup></button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('pow',3);">X<sup>3</sup></button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="setOperation('pow');">X<sup>y</sup></button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('pow_base','e');">e<sup>x</sup></button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('pow_base',10);">10<sup>x</sup></button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('7');">7</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('8');">8</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('9');">9</button></div>
-        <div class="col"><button class="form-control btn btn-info" (click)="setOperation('*');">*</button></div>
+      <div class="row pt-2">
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary">2<sup>nd</sup></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow',2);">x<sup>2</sup></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow',3);">x<sup>3</sup></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="setOperation('pow');">x<sup>y</sup></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow_base','e');">e<sup>x</sup></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow_base',10);">10<sup>x</sup></button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('7');">7</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('8');">8</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('9');">9</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-xl btn-info" (click)="setOperation('*');">&times;</button></div>
       </div>
-      <div class="row pt-3">
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('div',1);"><sup>1</sup>/<sub>x</sub></button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('sqrt',2);"><sup>2</sup>&radic;x</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('sqrt3',1/3);"><sup>3</sup>&radic;x</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="setOperation('sqrt');"><sup>y</sup>&radic;x</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('ln',2.7);">ln</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('lg',10);">log<sub>10</sub></button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('4');">4</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('5');">5</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('6');">6</button></div>
-        <div class="col"><button class="form-control btn btn-info" (click)="setOperation('-');">-</button></div>
+      <div class="row pt-2">
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('div',1);"><sup>1</sup>/<sub>x</sub></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('sqrt',2);"><sup>2</sup>&radic;x</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('sqrt3',1/3);"><sup>3</sup>&radic;x</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="setOperation('sqrt');"><sup>y</sup>&radic;x</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('ln',2.7);">ln</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('lg',10);">lg</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('4');">4</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('5');">5</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('6');">6</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-xl btn-info" (click)="setOperation('-');">&minus;</button></div>
       </div>
-      <div class="row pt-3">
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('factorial',1);">x!</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('sin',1);">sin</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('cos',1);">cos</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('tan',1);">tan</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('2.718281828459045',true);">e</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" title="Exponencial view of number">EE</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('1');">1</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('2');">2</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('3');">3</button></div>
-        <div class="col"><button class="form-control btn btn-info" (click)="setOperation('+');">+</button></div>
+      <div class="row pt-2">
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('factorial',1);">x!</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('sin',1);">sin</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('cos',1);">cos</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('tan',1);">tan</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="addSymbol('2.718281828459045',true);">e</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" title="Exponencial view of number">EE</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('1');">1</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('2');">2</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('3');">3</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-xl btn-info" (click)="setOperation('+');">&#43;</button></div>
       </div>
-      <div class="row pt-3">
-        <div class="col" *ngIf="getRadians(); else Grads"><button class="form-control btn btn-warning" (click)="setRadians();">Rad</button></div>
-        <ng-template #Grads><div class="col"><button class="form-control btn btn-info" (click)="setRadians();">Grad</button></div></ng-template>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('sinh',1);">sinh</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('cosh',1);">cosh</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('tanh',1);">tanh</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="addSymbol('3.141592653589793',true);">&#x213C;</button></div>
-        <div class="col"><button class="form-control btn btn-secondary" (click)="singleton('rand',1);">Rand</button></div>
-        <div class="col-2 mycol-2"><button class="form-control btn btn-secondary"(click)="addSymbol('0');">0</button></div>
-        <div class="col"><button class="form-control btn btn-secondary"(click)="addSymbol('.');">,</button></div>
-        <div class="col"><button class="form-control btn btn-primary" (click)="calculate();">=</button></div>
+      <div class="row pt-2">
+        <div class="col d-none d-lt-flex" *ngIf="getRadians(); else Grads"><button class="form-control btn btn-sm btn-warning" (click)="setRadians();">Rad</button></div>
+        <ng-template #Grads><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="setRadians();">Grad</button></div></ng-template>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('sinh',1);">sin<sup>h</sup></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('cosh',1);">cos<sup>h</sup></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('tanh',1);">tan<sup>h</sup></button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="addSymbol('3.141592653589793',true);">&#x213C;</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('rand',1);">Rnd</button></div>
+        <div class="col-2 mycol-2"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('0');">0</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-success"(click)="addSymbol('.');">,</button></div>
+        <div class="col"><button class="form-control btn btn-sm btn-primary" (click)="calculate();">=</button></div>
       </div>
     </div>
   </form>

@@ -31,8 +31,34 @@ export class AppComponent {
 		return this.formula.radians;
 	}
 
+	sumToMemory() {
+		this.formula.sumToMemory();
+	}
+
+	deductToMemory() {
+		this.formula.deductToMemory();
+	}
+
+	clearMemory() {
+		this.formula.clearMemory();
+	}
+
+	readMemory():string {
+		return this.formula.readMemory();
+	}
+
+	statusMemory():boolean {
+		return this.formula.in_memory;
+	}
+
+	valueMemory():number {
+		return this.formula.memory;
+	}
+
 	getOperand():string {
-		return this.formula.operation;
+		let o=this.formula.operation;
+		if (o == '*') return '&#215;';
+		return o;
 	}
 
 	resetOperand() {
