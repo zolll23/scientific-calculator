@@ -99,6 +99,15 @@ export class Formula {
         return this.formula;
     }
 
+    removeSymbol():void {
+        let len=this.formula.length;
+        let last_symbol=this.formula.substring(len - 1,len);
+        if (last_symbol == '.') {
+            this.dotted=false;
+        }
+        this.formula=this.formula.slice(0,-1);
+    }
+
     singleton(operand:string,data:any):number {
         let result:number=0;
         let rad:number=0;

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import {HostListener} from '@angular/core';
 import { Formula } from "./model";
+
 
 @Component({
   selector: 'app-root',
@@ -12,6 +14,33 @@ export class AppComponent {
 	formula = new Formula('0');
 
 	title = 'Scientific Calculator';
+
+
+	@HostListener('window:keyup', ['$event'])
+	keyEvent(event: KeyboardEvent) {
+		//console.log(event);
+		let key=event.key.toString();
+		let digits=['0','1','2','3','4','5','6','7','8','9','.'];
+		if (digits.indexOf(key) != -1) {
+			this.addSymbol(key,false);
+		}
+		if (event.keyCode == 8) {
+			this.removeSymbol();
+		}
+		if (event.keyCode == 13) {
+			this.calculate();
+		}
+		if (event.keyCode == 27) {
+			this.clear();
+		}
+		let operations=['+','-','*','/'];
+		if (operations.indexOf(key) != -1) {
+			this.setOperation(key);
+		}
+		if (key == '%') {
+			this.singleton('percent',-1);
+		}
+	}
 
 	getFormula() {
 		return this.formula.get();
@@ -74,9 +103,13 @@ export class AppComponent {
 		return this.formula.setOperation(operand);
 	}
 
-	addSymbol(value:string,start:boolean=false):any {
+	addSymbol(value:string,start:boolean=false):void {
 		console.log(start);
 		this.formula.addValue(value,start);
+	}
+
+	removeSymbol():void {
+		this.formula.removeSymbol();
 	}
 
 	calculate():string {
