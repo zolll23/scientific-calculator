@@ -18,7 +18,6 @@ export class AppComponent {
 
 	@HostListener('window:keyup', ['$event'])
 	keyEvent(event: KeyboardEvent) {
-		//console.log(event);
 		let key=event.key.toString();
 		let digits=['0','1','2','3','4','5','6','7','8','9','.'];
 		if (digits.indexOf(key) != -1) {
@@ -42,6 +41,10 @@ export class AppComponent {
 		}
 	}
 
+	addBracket(value:string):void {
+		this.formula.addBracket(value);
+	}
+
 	getFormula() {
 		return this.formula.get();
 	}
@@ -52,7 +55,6 @@ export class AppComponent {
 
 	setRadians():boolean {
 		let switcher=!this.getRadians();
-		console.log('setRadians:'+switcher);
 		return this.formula.setRadians(switcher);
 	}
 
@@ -92,19 +94,17 @@ export class AppComponent {
 
 	resetOperand() {
 		this.formula.operation='';
-		console.log('resetOperand');
 	}
 
 	singleton(operand:string,data:any):number {
 		return this.formula.singleton(operand,data);
 	}
 
-	setOperation(operand:string):string {
-		return this.formula.setOperation(operand);
+	setOperation(operand:string):void {
+		this.formula.setOperation(operand);
 	}
 
 	addSymbol(value:string,start:boolean=false):void {
-		console.log(start);
 		this.formula.addValue(value,start);
 	}
 
@@ -113,6 +113,8 @@ export class AppComponent {
 	}
 
 	calculate():string {
+		if (this.formula.is_operand == true || this.formula.stack.length<2) return;
+		this.formula.stack.push(this.formula.formula);
 		let value=this.formula.calculate().toString();
 		this.resetOperand();
 		return value;

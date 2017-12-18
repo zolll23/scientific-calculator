@@ -2,14 +2,15 @@ export class Formula {
     formula:string;
     current_number:number = 0;
     prev_number:number = 0;
+    stack:string[] = [];
     start:boolean = false; 
     dotted:boolean = false; // input number having dot
     is_operand:boolean = false;
     radians:boolean = true;
     operation:string = '';
-    prev_formula:string = '';
     memory:number = 0;
     in_memory:boolean = false;
+    bracket:boolean = false;
 
     constructor(formula:string='') {
         this.formula=formula;
@@ -44,6 +45,8 @@ export class Formula {
         this.is_operand = false;
         this.operation = '';
         this.start = false;
+        this.stack = [];
+        this.bracket = false;
         return this.formula;
     }
 
@@ -56,14 +59,12 @@ export class Formula {
         let value=this.getCurrentNumber();
         this.memory += value;
         this.in_memory = true;
-        console.log(this.memory);
     }
 
     deductToMemory() {
         let value=this.getCurrentNumber();
         this.memory -= value;
         this.in_memory = true;
-        console.log(this.memory);
     }
 
     readMemory():string {
@@ -72,17 +73,75 @@ export class Formula {
         return this.formula;
     }
 
-    setOperation(operand:string):string {
-        if (this.is_operand) return this.operation;
-        this.is_operand = true;
-        this.calculate();
-        this.operation=operand;
-        this.prev_formula=this.formula;
-        this.start=true;
-
-        console.log(this.prev_formula+':'+operand);
-        return this.operation;
+    addBracket(value:string):void {
+        // brackets can be set only if we have not set them before and we set operand (if we set brackets first - it will not make sense)
+        if (value == '(' && this.bracket == false && this.is_operand == true) {
+            this.stack.push(value);
+            this.bracket = true;
+            this.is_operand = false;
+        }
+        if (value == ')' && this.bracket == true && this.is_operand != true) {
+            this.bracket = false;
+            this.stack.push(this.formula);
+            this.stack.push(')');
+            this.is_operand = false;
+            this.start = true;
+            this.formula=eval(this.stack.join('')).toString();
+            this.stack=[this.formula];
+        }
     }
+
+    setOperation(operand:string):void {
+        this.operation=operand;
+        // If operator already set - nothing doing
+        if (this.is_operand) {
+            this.operation = operand;
+            return null;
+        }
+        this.is_operand = true;
+        this.stack.push(this.formula);
+        this.stack.push(this.operation);
+        this.start=true;
+    }
+
+    calculate():number {
+        let result:number;
+        if (this.stack.length<3) return;
+        this.is_operand = false;
+        this.current_number=this.parse(this.stack.pop());
+        this.operation=this.stack.pop();
+        this.prev_number=this.parse(this.stack.pop());
+        if (!this.prev_number) return 0;
+        
+        this.current_number=this.parse(this.formula);
+        
+        switch (this.operation) {
+            case '+':
+                result=this.prev_number+this.current_number;
+                this.show(result);
+            break;
+            case '-':
+                result=this.prev_number-this.current_number;
+                this.show(result);
+            break;
+            case '*':
+                result=this.prev_number*this.current_number;
+                this.show(result);
+            break;
+            case '/':
+                result=this.prev_number/this.current_number;
+                this.show(result);
+            break;
+            case 'sqrt':
+                result=Math.pow(this.prev_number,1/this.current_number);
+                this.show(result);
+            break;
+        }
+
+        this.start=true;
+        return result;
+    }
+
 
     addValue(value:string,start:boolean):string {
         if (start || this.start || (this.dotted == false && this.formula == '0' && value != '.')) {
@@ -96,6 +155,7 @@ export class Formula {
             this.dotted=true;
         }
         this.formula+=value;
+        this.is_operand = false;
         return this.formula;
     }
 
@@ -113,8 +173,6 @@ export class Formula {
         let rad:number=0;
         let grad=180/Math.PI;
         this.current_number=parseFloat(this.formula);
-        console.log(operand);
-        console.log(this.current_number);
         
         switch (operand) {
             case 'invert':
@@ -180,48 +238,16 @@ export class Formula {
             case 'percent':
                 result=this.current_number/100;
             break;
+            case 'ee':
+                result=this.current_number.toExponential();
+            break;
         }
         this.start=true;
         this.show(result);
         return result;
     }
 
-    calculate():number {
-        let result:number;
-        this.is_operand = false;
-        if (this.prev_formula=='') return 0;
-        this.prev_number=parseFloat(this.prev_formula);
-        this.current_number=parseFloat(this.formula);
-        switch (this.operation) {
-            case '+':
-                result=this.prev_number+this.current_number;
-                this.show(result);
-            break;
-            case '-':
-                result=this.prev_number-this.current_number;
-                this.show(result);
-            break;
-            case '*':
-                result=this.prev_number*this.current_number;
-                this.show(result);
-            break;
-            case '/':
-                result=this.prev_number/this.current_number;
-                this.show(result);
-            break;
-            case 'sqrt':
-                result=Math.pow(this.prev_number,1/this.current_number);
-                this.show(result);
-            break;
-        }
-
-        console.log(this.prev_number+' '+this.operation+' '+this.current_number + ' = '+result);
-        this.start=true;
-        return result;
-    }
-
     show(value:number):string {
-        this.prev_formula='';
         this.formula=value.toString();
         return this.formula;
     }

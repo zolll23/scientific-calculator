@@ -16,8 +16,8 @@
         <div class="col"><input type="text" placeholder="0" #inputField value="{{getFormula()}}" class="form-control text-right"></div>
       </div>
       <div class="row pt-2">
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary">(</button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary">)</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="addBracket('(');">(</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="addBracket(')');">)</button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="clearMemory();">mc</button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="sumToMemory();">m+</button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="deductToMemory();">m-</button></div>
@@ -57,7 +57,7 @@
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('cos',1);">cos</button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('tan',1);">tan</button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="addSymbol('2.718281828459045',true);">e</button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" title="Exponencial view of number">EE</button></div>
+        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('ee',1);" title="Exponencial view of number">EE</button></div>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('1');">1</button></div>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('2');">2</button></div>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('3');">3</button></div>
