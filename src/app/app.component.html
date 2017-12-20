@@ -28,12 +28,15 @@
         <div class="col"><button class="form-control btn btn-sm btn-xl btn-info" (click)="setOperation('/');">&divide;</button></div>
       </div>
       <div class="row pt-2">
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary">2<sup>nd</sup></button></div>
+        <div class="col d-none d-lt-flex" *ngIf="!getScreen(); else fs"><button class="form-control btn btn-sm btn-secondary" (click)="secondScreen();">2<sup>nd</sup></button></div>
+        <ng-template #fs><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="secondScreen();">1<sup>nd</sup></button></div></ng-template>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow',2);">x<sup>2</sup></button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow',3);">x<sup>3</sup></button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="setOperation('pow');">x<sup>y</sup></button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow_base','e');">e<sup>x</sup></button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow_base',10);">10<sup>x</sup></button></div>
+        <div class="col d-none d-lt-flex" *ngIf="!getScreen(); else yx"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow_base','e');">e<sup>x</sup></button></div>
+        <ng-template #yx><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="setOperation('yx');">y<sup>x</sup></button></div></ng-template>
+        <div class="col d-none d-lt-flex" *ngIf="!getScreen(); else x2"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('pow_base',10);">10<sup>x</sup></button></div>
+        <ng-template #x2><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="singleton('pow_base',2);">2<sup>x</sup></button></div></ng-template>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('7');">7</button></div>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('8');">8</button></div>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('9');">9</button></div>
@@ -44,8 +47,10 @@
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('sqrt',2);"><sup>2</sup>&radic;x</button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('sqrt3',1/3);"><sup>3</sup>&radic;x</button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="setOperation('sqrt');"><sup>y</sup>&radic;x</button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('ln',2.7);">ln</button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('lg',10);">lg</button></div>
+        <div class="col d-none d-lt-flex" *ngIf="!getScreen(); else log"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('ln',2.7);">ln</button></div>
+        <ng-template #log><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="setOperation('log');">log<sub>y</sub></button></div></ng-template>
+        <div class="col d-none d-lt-flex" *ngIf="!getScreen(); else log2"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('lg',10);">lg</button></div>
+        <ng-template #log2><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="singleton('lg',2);">log<sub>2</sub></button></div></ng-template>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('4');">4</button></div>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('5');">5</button></div>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('6');">6</button></div>
@@ -53,9 +58,12 @@
       </div>
       <div class="row pt-2">
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('factorial',1);">x!</button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('sin',1);">sin</button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('cos',1);">cos</button></div>
-        <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('tan',1);">tan</button></div>
+        <div class="col d-none d-lt-flex" *ngIf="!getScreen(); else asin"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('sin',1);">sin</button></div>
+        <ng-template #asin><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="singleton('asin',1);">sin<sup>-1</sup></button></div></ng-template>
+        <div class="col d-none d-lt-flex" *ngIf="!getScreen(); else acos"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('cos',1);">cos</button></div>
+        <ng-template #acos><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="singleton('acos',1);">cos<sup>-1</sup></button></div></ng-template>
+        <div class="col d-none d-lt-flex" *ngIf="!getScreen(); else atan"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('tan',1);">tan</button></div>
+        <ng-template #atan><div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-info" (click)="singleton('atan',1);">tan<sup>-1</sup></button></div></ng-template>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="addSymbol('2.718281828459045',true);">e</button></div>
         <div class="col d-none d-lt-flex"><button class="form-control btn btn-sm btn-secondary" (click)="singleton('ee',1);" title="Exponencial view of number">EE</button></div>
         <div class="col"><button class="form-control btn btn-sm btn-success" (click)="addSymbol('1');">1</button></div>

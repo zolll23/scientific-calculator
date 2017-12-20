@@ -58,6 +58,16 @@ export class AppComponent {
 		return this.formula.setRadians(switcher);
 	}
 
+	secondScreen():boolean {
+		let screen=!this.formula.secondScreen;
+		this.formula.secondScreen=screen;
+		return screen;
+	}
+
+	getScreen():boolean {
+		return this.formula.secondScreen;
+	}
+
 	getRadians():boolean {
 		return this.formula.radians;
 	}

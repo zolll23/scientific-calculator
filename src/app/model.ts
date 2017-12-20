@@ -11,6 +11,7 @@ export class Formula {
     memory:number = 0;
     in_memory:boolean = false;
     bracket:boolean = false;
+    secondScreen:boolean = false;
 
     constructor(formula:string='') {
         this.formula=formula;
@@ -28,10 +29,6 @@ export class Formula {
         return this.parse(this.formula);
     }
 
-    getPrevNumber() {
-        return this.parse(this.prev_formula);
-    }
-
     setRadians(switcher:boolean):boolean {
         this.radians=switcher;
         return this.radians;
@@ -40,7 +37,7 @@ export class Formula {
 
     clear():string {
         this.formula = '0';
-        this.prev_formula = '';
+
         this.dotted = false;
         this.is_operand = false;
         this.operation = '';
@@ -59,16 +56,17 @@ export class Formula {
         let value=this.getCurrentNumber();
         this.memory += value;
         this.in_memory = true;
+        this.start = true;
     }
 
     deductToMemory() {
         let value=this.getCurrentNumber();
         this.memory -= value;
         this.in_memory = true;
+        this.start = true;
     }
 
     readMemory():string {
-        this.prev_formula=this.formula;
         this.formula=this.memory.toString();
         return this.formula;
     }
@@ -112,31 +110,42 @@ export class Formula {
         this.operation=this.stack.pop();
         this.prev_number=this.parse(this.stack.pop());
         if (!this.prev_number) return 0;
-        
-        this.current_number=this.parse(this.formula);
-        
+
         switch (this.operation) {
             case '+':
                 result=this.prev_number+this.current_number;
                 this.show(result);
-            break;
+                break;
             case '-':
                 result=this.prev_number-this.current_number;
                 this.show(result);
-            break;
+                break;
             case '*':
                 result=this.prev_number*this.current_number;
                 this.show(result);
-            break;
+                break;
             case '/':
                 result=this.prev_number/this.current_number;
                 this.show(result);
-            break;
+                break;
             case 'sqrt':
                 result=Math.pow(this.prev_number,1/this.current_number);
                 this.show(result);
-            break;
+                break;
+            case 'pow':
+                result=Math.pow(this.prev_number,this.current_number);
+                this.show(result);
+                break;
+            case 'yx':
+                result = Math.pow(this.current_number, this.prev_number);
+                this.show(result);
+                break;
+            case 'log':
+                result = Math.log(this.prev_number) / Math.log(this.current_number);
+                break;
         }
+
+        this.current_number=this.parse(this.formula);
 
         this.start=true;
         return result;
@@ -188,7 +197,7 @@ export class Formula {
                 result=Math.log(this.current_number);
             break;
             case 'lg':
-                result=Math.log(this.current_number)/Math.log(10);
+                result=Math.log(this.current_number)/Math.log(data);
             break;
             case 'pow_base':
                 let base=data=='e' ? Math.E : data;
@@ -225,6 +234,18 @@ export class Formula {
                 rad=(this.radians) ? this.current_number : this.current_number/grad;
                 result=(Math.exp(rad)-Math.exp(-rad))/(Math.exp(rad)+Math.exp(-rad));
             break;
+            case 'asin':
+                result=Math.asin(this.current_number);
+                result=(this.radians) ? result : result*grad;
+            break;
+            case 'acos':
+                result=Math.acos(this.current_number);
+                result=(this.radians) ? result : result*grad;
+            break;
+            case 'atab':
+                result=Math.atan(this.current_number);
+                result=(this.radians) ? result : result*grad;
+            break;
             case 'rand':
                 result=Math.random();
             break;
@@ -239,9 +260,10 @@ export class Formula {
                 result=this.current_number/100;
             break;
             case 'ee':
-                result=this.current_number.toExponential();
+                result=this.current_number.toExponential().toString();
             break;
         }
+
         this.start=true;
         this.show(result);
         return result;
