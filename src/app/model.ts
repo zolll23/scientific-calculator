@@ -242,8 +242,20 @@ export class Formula {
                 result=Math.acos(this.current_number);
                 result=(this.radians) ? result : result*grad;
             break;
-            case 'atab':
+            case 'atan':
                 result=Math.atan(this.current_number);
+                result=(this.radians) ? result : result*grad;
+            break;
+            case 'asinh':
+                result=Math.asinh(this.current_number);
+                result=(this.radians) ? result : result*grad;
+            break;
+            case 'acosh':
+                result=Math.acosh(this.current_number);
+                result=(this.radians) ? result : result*grad;
+            break;
+            case 'atanh':
+                result=Math.atanh(this.current_number);
                 result=(this.radians) ? result : result*grad;
             break;
             case 'rand':
