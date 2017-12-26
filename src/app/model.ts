@@ -274,7 +274,6 @@ export class Formula {
             case 'ee':
                 this.formula=this.current_number.toExponential();
                 return 0;
-            break;
         }
 
         this.start=true;
