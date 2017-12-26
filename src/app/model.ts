@@ -272,7 +272,8 @@ export class Formula {
                 result=this.current_number/100;
             break;
             case 'ee':
-                result=this.current_number.toExponential().toString();
+                this.formula=this.current_number.toExponential();
+                return 0;
             break;
         }
 
